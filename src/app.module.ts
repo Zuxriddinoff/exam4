@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { Order } from './orders/models/orders.model';
+import { OrderItem } from './orders-item/models/orders-item.model';
+import { OrdersModule } from './orders/orders.module';
+import { OrdersItemModule } from './orders-item/orders-item.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -17,8 +21,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [ ]
+      models: [Order, OrderItem]
     }),
+    OrdersModule,
+    OrdersItemModule,
   ],
 })
 export class AppModule {}

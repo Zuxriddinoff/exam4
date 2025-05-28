@@ -1,5 +1,5 @@
 import { Column, Table, Model, DataType } from "sequelize-typescript";
-import { Col } from "sequelize/types/utils";
+import { Status } from "src/enum";
 
 @Table({
     tableName: "orders"
@@ -29,6 +29,13 @@ export class Order extends Model {
         allowNull: false
     })
     total_price: number;
+
+    @Column({
+        type: DataType.ENUM(Status.ACCEPTED, Status.PROCESS, Status.DELIVERY, Status.CLOSED),
+        allowNull: false,
+        defaultValue: Status.ACCEPTED
+    })
+    status: string;
 
     @Column({
         type: DataType.STRING,
