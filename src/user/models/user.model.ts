@@ -1,5 +1,6 @@
 import { MethodNotAllowedException } from "@nestjs/common";
 import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Roles} from "src/enum";
 
 @Table({tableName:"users"})
 export class User extends Model{
@@ -29,6 +30,7 @@ export class User extends Model{
 
     @Column({
         type:DataType.STRING,
+        unique:true,
         allowNull:false
     })
     email:string
@@ -37,10 +39,11 @@ export class User extends Model{
         type:DataType.STRING,
         allowNull:false
     })
-    password:string
+    hashedPassword:string
 
     @Column({
         type:DataType.STRING,
+        unique:true,
         allowNull:false
     })
     phoneNumber:string
@@ -52,7 +55,7 @@ export class User extends Model{
     address:string
 
     @Column({
-        type:DataType.ENUM('superAdmin', 'admin', 'seller', 'customer'),
+        type:DataType.ENUM(Roles.SUPERADMIN, Roles.ADMIN, Roles.CUSTOMER, Roles.SELLER),
         allowNull:false
     })
     role:string   
