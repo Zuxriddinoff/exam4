@@ -1,24 +1,32 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { BasketModule } from './basket/basket.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: '.env'
-  }),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.PG_HOST,
-      username: process.env.PG_USER,
-      port: Number(process.env.PG_PORT),
-      password: String(process.env.PG_PASS),
-      database: process.env.PG_DB,
-      synchronize: true,
-      autoLoadModels: true,
-      logging: false,
-      models: [ ]
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
     }),
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        dialect: 'postgres',
+        host: config.get('PG_HOST'),
+        port: config.get<number>('PG_PORT'),
+        username: config.get('PG_USER'),
+        password: config.get('PG_PASS'),
+        database: config.get('PG_DB'),
+        autoLoadModels: true,
+        synchronize: true,
+        logging: false,
+      }),
+    }),
+    BasketModule,
+    PaymentModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
