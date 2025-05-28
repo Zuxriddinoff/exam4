@@ -4,8 +4,8 @@
 // }
 
 export enum Roles {
-    SUPERADMIN = 'superadmin',
-    ADMIN = 'admin',
-    CUSTOMER = 'customer',
-    SELLER = 'seller'
+  SUPERADMIN = 'superadmin',
+  ADMIN = 'admin',
+  CUSTOMER = 'customer',
+  SELLER = 'seller',
 }

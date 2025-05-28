@@ -5,10 +5,11 @@ import { UserModule } from './user/user.module';
 import { User } from './user/models/user.model';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: '.env'
-  }),
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.PG_HOST,
@@ -19,7 +20,7 @@ import { User } from './user/models/user.model';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [User]
+      models: [User],
     }),
     UserModule,
   ],
