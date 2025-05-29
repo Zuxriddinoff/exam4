@@ -1,4 +1,3 @@
-import { MethodNotAllowedException } from '@nestjs/common';
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { Roles } from 'src/enum';
 
