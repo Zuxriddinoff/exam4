@@ -22,7 +22,7 @@ import { Category } from './category/models/category.model';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [ProductRaiting, Category]
+      models: [ ]
     }),
     UserModule,
     CategoryModule,
