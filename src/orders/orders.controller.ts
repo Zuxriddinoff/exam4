@@ -1,16 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-  NotFoundException,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -20,42 +8,27 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  async create(@Body() createOrderDto: CreateOrderDto) {
-    return await this.ordersService.create(createOrderDto);
+  create(@Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.createOrder(createOrderDto);
   }
 
   @Get()
-  async findAll() {
-    return await this.ordersService.findAll();
+  findAll() {
+    return this.ordersService.findAllOrder();
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const order = await this.ordersService.findOne(id);
-    if (!order) {
-      throw new NotFoundException(`Order with id ${id} not found`);
-    }
-    return order;
+  findOne(@Param('id') id: string) {
+    return this.ordersService.findOneOrder(+id);
   }
 
   @Patch(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateOrderDto: UpdateOrderDto,
-  ) {
-    const updated = await this.ordersService.update(id, updateOrderDto);
-    if (!updated) {
-      throw new NotFoundException(`Order with id ${id} not found`);
-    }
-    return updated;
+  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return this.ordersService.updateOrder(+id, updateOrderDto);
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const removed = await this.ordersService.remove(id);
-    if (!removed) {
-      throw new NotFoundException(`Order with id ${id} not found`);
-    }
+  remove(@Param('id') id: string) {
+    return this.ordersService.removeOrder(+id);
   }
 }

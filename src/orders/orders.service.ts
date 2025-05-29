@@ -3,69 +3,67 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './models/orders.model';
+import { catchError } from 'src/utils/catch-error';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectModel(Order)
-    private model: typeof Order,
-  ) {}
-
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
+    private readonly orderModel: typeof Order,
+  ) { }
+  
+  async createOrder(createOrderDto: CreateOrderDto) {
     try {
-      const existing = await this.model.findOne({ where: { phone_number: createOrderDto.phone_number } });
-      if (existing) {
-        throw new ConflictException('Bu telefon raqam bilan buyurtma allaqachon mavjud.');
+      const order = await this.orderModel.create({...createOrderDto});
+      return order;
+    } catch (error) {
+      catchError(error);
+    }
+  }
+
+  async findAllOrder() {
+    try {
+      return await this.orderModel.findAll();
+    } catch (error) {
+      catchError(error);
+    }
+  }
+  
+  async findOneOrder(id: number) {
+    try {
+      const order = await this.orderModel.findByPk(id);
+      if (!order) {
+        throw new NotFoundException(`ID raqami ${id} bolgan buyurtma topilmadi`);
       }
-
-      const order = await this.model.create({ ...createOrderDto });
       return order;
     } catch (error) {
-      throw new BadRequestException(error.message || 'Buyurtmani yaratishda xatolik yuz berdi.');
+      catchError(error);
     }
   }
 
-  async findAll(): Promise<Order[]> {
+  async updateOrder(id: number, updateOrderDto: UpdateOrderDto) {
     try {
-      return await this.model.findAll();
-    } catch (error) {
-      throw new InternalServerErrorException('Buyurtmalar royxatini olishda xatolik yuz berdi.');
-    }
-  }
-
-  async findOne(id: number): Promise<Order> {
-    const order = await this.model.findByPk(id);
-    if (!order) {
-      throw new NotFoundException(`ID raqami ${id} bolgan buyurtma topilmadi.`);
-    }
-    return order;
-  }
-
-  async update(id: number, dto: UpdateOrderDto): Promise<Order> {
-    const order = await this.model.findByPk(id);
-    if (!order) {
-      throw new NotFoundException(`ID raqami ${id} bolgan buyurtma mavjud emas.`);
-    }
-
-    try {
-      await order.update(dto);
+      const order = await this.orderModel.findByPk(id);
+      if (!order) {
+        throw new NotFoundException(`ID raqami ${id} bolgan buyurtma mavjud emas`);
+      }
+      await order.update(updateOrderDto);
       return order;
     } catch (error) {
-      throw new BadRequestException('Buyurtmani yangilashda xatolik yuz berdi.');
+      catchError(error);
     }
   }
 
-  async remove(id: number): Promise<{ message: string }> {
-    const order = await this.model.findByPk(id);
-    if (!order) {
-      throw new NotFoundException(`ID raqami ${id} bolgan buyurtma topilmadi.`);
-    }
-
+  async removeOrder(id: number) {
     try {
+      const order = await this.orderModel.findByPk(id);
+      if (!order) {
+        throw new NotFoundException(`ID raqami ${id} bolgan buyurtma topilmadi`);
+      }
       await order.destroy();
-      return { message: 'Buyurtma muvaffaqiyatli ochirildi.' };
+      return { message: 'Buyurtma ochirib tashlandi' };
     } catch (error) {
-      throw new InternalServerErrorException('Buyurtmani ochirishda xatolik yuz berdi.');
+      catchError(error);
     }
   }
 }
