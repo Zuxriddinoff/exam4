@@ -1,4 +1,5 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, Inject,  InternalServerErrorException } from '@nestjs/common';
+import { Sequelize } from 'sequelize-typescript';
 import { CreateProductRaitingDto } from './dto/create-product_raiting.dto';
 import { UpdateProductRaitingDto } from './dto/update-product_raiting.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -8,15 +9,13 @@ import { ProductRaiting } from './models/product_raiting.model';
 export class ProductRaitingsService {
 
   constructor(
-    @InjectModel(ProductRaiting) private model: typeof ProductRaiting
+    @InjectModel(ProductRaiting) private model: typeof ProductRaiting,
+    private readonly sequelize: Sequelize
   ){}
 
   async create(createProductRaitingDto: CreateProductRaitingDto) {
     try {
         const product_raiting = await this.model.create({ ...createProductRaitingDto })
-        // if (product_raiting) {
-        //    throw new ConflictException('product raiting alrady exists')
-        // }
         return product_raiting
     } catch (error) {
         throw new InternalServerErrorException(error.message) 
@@ -41,6 +40,20 @@ export class ProductRaitingsService {
       } catch (error) {
         throw new InternalServerErrorException(error.message) 
       }
+    }
+
+    // service
+    async getTopRatedProducts() {
+      return this.model.findAll({
+        attributes: [
+          'product_id',
+          [this.sequelize.fn('AVG', this.sequelize.col('rayting')), 'avg_rating'],
+          [this.sequelize.fn('COUNT', this.sequelize.col('id')), 'raiting_count']
+        ],
+        group: ['product_id'],
+        order: [[this.sequelize.fn('AVG', this.sequelize.col('rayting')), 'DESC']],
+        limit: 1
+      });      
     }
     
     async update(id: number, updateProductRaitingDto: UpdateProductRaitingDto) {

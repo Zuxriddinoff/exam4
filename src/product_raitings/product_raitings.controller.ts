@@ -17,6 +17,13 @@ export class ProductRaitingsController {
     return this.productRaitingsService.findAll();
   }
 
+  // controller
+  @Get('top-rated-products')
+  getTopRatedProducts() {
+    return this.productRaitingsService.getTopRatedProducts();
+  }
+
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productRaitingsService.findOne(+id);
