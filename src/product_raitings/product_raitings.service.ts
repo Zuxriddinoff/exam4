@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateProductRaitingDto } from './dto/create-product_raiting.dto';
 import { UpdateProductRaitingDto } from './dto/update-product_raiting.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -12,25 +12,54 @@ export class ProductRaitingsService {
   ){}
 
   async create(createProductRaitingDto: CreateProductRaitingDto) {
-    const product_raiting = await this.model.create({ ...createProductRaitingDto })
-    return product_raiting
+    try {
+        const product_raiting = await this.model.create({ ...createProductRaitingDto })
+        // if (product_raiting) {
+        //    throw new ConflictException('product raiting alrady exists')
+        // }
+        return product_raiting
+    } catch (error) {
+        throw new InternalServerErrorException(error.message) 
+    }
   }
-
+  
   async findAll() {
-    return this.model.findAll()
-  }
-
+    try {
+        return this.model.findAll()
+    } catch (error) {
+        throw new InternalServerErrorException(error.message) 
+      }
+    }
+    
   async findOne(id: number) {
-    const productrarinig = await this.model.findByPk(id)
-    return productrarinig;
-  }
-
-  async update(id: number, updateProductRaitingDto: UpdateProductRaitingDto) {
-    const product_raiting = await this.model.update(updateProductRaitingDto, {where: {id}, returning: true})
-    return product_raiting[1][0];
-  }
-
+    try {
+        const productrarinig = await this.model.findByPk(id)
+        if (!productrarinig) {
+          throw new ConflictException('product raiting id not found')
+        }
+        return productrarinig;
+      } catch (error) {
+        throw new InternalServerErrorException(error.message) 
+      }
+    }
+    
+    async update(id: number, updateProductRaitingDto: UpdateProductRaitingDto) {
+      try {
+        const product_raiting = await this.model.update(updateProductRaitingDto, {where: {id}, returning: true})
+        if (!product_raiting) {
+          throw new ConflictException('product raiting id not found')
+        }
+        return product_raiting[1][0];
+    } catch (error) {
+        throw new InternalServerErrorException(error.message)   
+      }
+    }
+    
   async remove(id: number) {
-    return this.model.destroy({where: {id}});
+    try {
+        return this.model.destroy({where: {id}});
+    } catch (error) {
+        throw new InternalServerErrorException(error.message)   
+    }
   }
 }

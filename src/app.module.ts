@@ -4,6 +4,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { ProductRaitingsModule } from './product_raitings/product_raitings.module';
+import { ProductRaiting } from './product_raitings/models/product_raiting.model';
+import { Category } from './category/models/category.model';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -20,7 +22,7 @@ import { ProductRaitingsModule } from './product_raitings/product_raitings.modul
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [ ]
+      models: [ProductRaiting, Category]
     }),
     UserModule,
     CategoryModule,

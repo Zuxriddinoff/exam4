@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -10,27 +10,56 @@ export class CategoryService {
   constructor(
     @InjectModel(Category) private model: typeof Category 
   ){}
-
+  
   async create(createCategoryDto: CreateCategoryDto) {
-    const category = await this.model.create({ ...createCategoryDto }); 
-    return category;
+    try {
+      const category = await this.model.create({ ...createCategoryDto }); 
+      // if (category) {
+      //   throw new ConflictException('Category alrady exists')
+      // }
+      return category;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
-
+  
   async findAll() {
-    return this.model.findAll()
+    try {
+      return this.model.findAll()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
-
+  
   async findOne(id: number) {
-    const category = await this.model.findByPk(id)
-    return category;
+    try {
+      const category = await this.model.findByPk(id)
+      if (!category) {
+        throw new ConflictException('Category not found')
+      }
+      return category;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message) 
+    }
   }
-
+  
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const category = await this.model.update(updateCategoryDto, {where: {id}, returning: true})
-    return category[1][0];
+    try {
+      const category = await this.model.update(updateCategoryDto, {where: {id}, returning: true})
+      if (!category) {
+        throw new ConflictException('Category not found')
+      }
+      return category[1][0];
+    } catch (error) {
+      throw new InternalServerErrorException(error.message) 
+    }
   }
-
+  
   remove(id: number) {
-    return this.model.destroy({where: {id}}); 
+    try {
+      return this.model.destroy({where: {id}}); 
+    } catch (error) {
+      throw new InternalServerErrorException(error.message) 
+    }
   }
 }
