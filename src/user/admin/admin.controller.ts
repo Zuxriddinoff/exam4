@@ -16,7 +16,7 @@ export class AminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post()
-  create(createUserDto:CreateUserDto){
+  create(@Body() createUserDto:CreateUserDto){
     return this.adminService.createAdmin(createUserDto)
   }
 
@@ -25,8 +25,18 @@ export class AminController {
     return this.adminService.findAll();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id:string) {
+    return this.adminService.findOne(+id);
+  }
+
   @Patch(':id')
   async updateAdmin(@Param('id') id:string, @Body() updateUserDto:UpdateUserDto){
     return this.adminService.updateAdmin(+id, updateUserDto)
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id:string){
+    return this.adminService.delete(+id)
   }
 }

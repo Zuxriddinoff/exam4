@@ -11,6 +11,7 @@ import { User } from '../common/models/user.model';
 import { encrypt } from 'utils/bcrypt-decrypt';
 import { Roles } from 'src/enum';
 import config from 'src/config';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class AdminService implements OnModuleInit {
@@ -52,7 +53,7 @@ export class AdminService implements OnModuleInit {
     }
     const hashedPassword = await encrypt(password)
     const admin = this.model.create({
-      ...CreateUserDto,
+      ...createUserDto,
       hashedPassword,
       role:Roles.ADMIN
     })
@@ -61,6 +62,33 @@ export class AdminService implements OnModuleInit {
             message:'succes',
             data:admin
         }
+  }
+
+  async findAll(){
+    const admin = await this.model.findAll({
+      where: {
+        role: {
+          [Op.in]: [Roles.ADMIN, Roles.SUPERADMIN],
+        },
+      },
+    });
+    return {
+        statusCode:200,
+        message:'succes',
+        data:admin
+    }
+  }
+
+  async findOne(id:number){
+    const admin = await this.model.findOne({where:{id}})
+    if(!admin){
+      return `admin not found by id => ${id}`
+    }
+    return {
+        statusCode:200,
+        message:'succes',
+        data:admin
+    }
   }
 
   async updateAdmin(id:number, updateUserDto:UpdateUserDto){
@@ -79,12 +107,15 @@ export class AdminService implements OnModuleInit {
     }
   }
 
-  async findAll(){
-    const admin = await this.model.findAll()
-    return {
-        statusCode:200,
-        message:'succes',
-        data:admin
+  async delete(id:number){
+    const admin = await this.model.findOne({where:{id}})
+    console.log("admin",admin);
+    console.log("admin role", admin?.role);
+    if(admin?.dataValues.role === Roles.SUPERADMIN){
+      return `You're stupid, you can't delete super admin`
+    }else{
+      await this.model.destroy({where:{id}})
+      return {data:{}}
     }
   }
 }
