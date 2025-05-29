@@ -21,5 +21,11 @@ export class OrderItem extends Model {
         type: DataType.INTEGER,
         allowNull: false
     })
-    count: number;
+    quantity: number;
+
+    @Column({
+        type: DataType.DECIMAL(10, 2),
+        allowNull: false
+    })
+    total_price: number
 }

@@ -10,12 +10,6 @@ export class Order extends Model {
         type: DataType.INTEGER,
         allowNull: false
     })
-    seller_id: number;
-
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
     client_id: number;
 
     @Column({

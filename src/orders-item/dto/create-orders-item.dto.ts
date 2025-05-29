@@ -11,6 +11,10 @@ export class CreateOrdersItemDto {
 
     @IsNumber()
     @IsNotEmpty()
-    @Min(1, { message: 'count kamida 1 bolishi kerak' })
-    count: number;
+    @Min(1, { message: 'quantity kamida 1 bolishi kerak' })
+    quantity: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    total_price: number;
 }
