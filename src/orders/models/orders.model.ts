@@ -33,7 +33,6 @@ export class Order extends Model {
 
     @Column({
         type: DataType.STRING,
-        unique: true,
         allowNull: false
     })
     phone_number: string;
