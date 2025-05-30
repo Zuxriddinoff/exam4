@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { ProductRaitingsModule } from './product_raitings/product_raitings.module';
 import { ProductRaiting } from './product_raitings/models/product_raiting.model';
 import { Category } from './category/models/category.model';
+import { User } from './user/common/models/user.model';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: '.env'
-  }),
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.PG_HOST,
@@ -22,7 +23,7 @@ import { Category } from './category/models/category.model';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [ ]
+      models: [User],
     }),
     UserModule,
     CategoryModule,
