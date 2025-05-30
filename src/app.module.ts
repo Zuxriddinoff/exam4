@@ -6,6 +6,7 @@ import { ProductRaitingsModule } from './product_raitings/product_raitings.modul
 import { ProductRaiting } from './product_raitings/models/product_raiting.model';
 import { Category } from './category/models/category.model';
 import { User } from './user/common/models/user.model';
+import { UserModule } from './user/common/user.module';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { User } from './user/common/models/user.model';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [User],
+      models: [User, Category, ProductRaiting],
     }),
     UserModule,
     CategoryModule,

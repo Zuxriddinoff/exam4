@@ -37,6 +37,7 @@ export class AdminService implements OnModuleInit {
         });
       }
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException(error.message);
     }
   }

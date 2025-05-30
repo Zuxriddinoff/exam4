@@ -12,5 +12,6 @@ export class Category extends Model {
         type: DataType.STRING, 
         allowNull: false  
     })
-    icon: string;
+    dectcription: string;
 }
+

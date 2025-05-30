@@ -10,7 +10,7 @@ export default {
   PG_DB: String(process.env.PG_DB),
   ADMIN_FIRST_NAME: String(process.env.ADMIN_FIRST_NAME),
   ADMIN_LAST_NAME: String(process.env.ADMIN_LAST_NAME),
-  ADMIN_AGE: String(process.env.ADMIN_AGE),
+  ADMIN_AGE: Number(process.env.ADMIN_AGE),
   ADMIN_GENDER: String(process.env.ADMIN_GENDER),
   ADMIN_EMAIL: String(process.env.ADMIN_EMAIL),
   ADMIN_PASSWORD: String(process.env.ADMIN_PASSWORD),

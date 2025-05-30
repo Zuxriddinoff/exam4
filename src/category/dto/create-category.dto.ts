@@ -7,6 +7,6 @@ export class CreateCategoryDto {
     
     @IsNotEmpty()
     @IsString()
-    icon: string
+    dectcription: string
 
 }
