@@ -6,7 +6,8 @@ import { ProductRaitingsModule } from './product_raitings/product_raitings.modul
 import { ProductRaiting } from './product_raitings/models/product_raiting.model';
 import { Category } from './category/models/category.model';
 import { User } from './user/common/models/user.model';
-import { UserModule } from './user/common/user.module';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/models/product.model';
 
 @Module({
   imports: [
@@ -24,11 +25,10 @@ import { UserModule } from './user/common/user.module';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [User, Category, ProductRaiting],
+      models: [User, Product],
     }),
     UserModule,
-    CategoryModule,
-    ProductRaitingsModule,
+    ProductModule,
   ],
 })
 export class AppModule {}
