@@ -1,16 +1,21 @@
-import { Column, Table, Model, DataType } from "sequelize-typescript";
+import { Column, Table, Model, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
 import { Status } from "src/enum";
+import { User } from "src/user/common/models/user.model";
 
 @Table({
     tableName: "orders"
 })
 
 export class Order extends Model {
+    @ForeignKey(() => User)
     @Column({
         type: DataType.INTEGER,
         allowNull: false
     })
     client_id: number;
+
+    @BelongsTo(() => User)
+    user: User;
 
     @Column({
         type: DataType.STRING,

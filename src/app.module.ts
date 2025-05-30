@@ -5,6 +5,8 @@ import { Order } from './orders/models/orders.model';
 import { OrderItem } from './orders-item/models/orders-item.model';
 import { OrdersModule } from './orders/orders.module';
 import { OrdersItemModule } from './orders-item/orders-item.module';
+import { User } from './user/common/models/user.model';
+import { UserModule } from './user/common/user.module';
 
 @Module({
   imports: [
@@ -22,8 +24,9 @@ import { OrdersItemModule } from './orders-item/orders-item.module';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [Order, OrderItem]
+      models: [Order, OrderItem, User]
     }),
+    UserModule,
     OrdersModule,
     OrdersItemModule,
   ],
