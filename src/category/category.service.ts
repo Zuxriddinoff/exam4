@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -13,10 +13,16 @@ export class CategoryService {
   
   async create(createCategoryDto: CreateCategoryDto) {
     try {
+
+      const existingCategory = await this.model.findOne({
+        where: { name: createCategoryDto.name },
+      });
+
+      if (existingCategory) {
+        throw new BadRequestException('Category name alrady exists.');
+      }
+
       const category = await this.model.create({ ...createCategoryDto }); 
-      // if (category) {
-      //   throw new ConflictException('Category alrady exists')
-      // }
       return category;
     } catch (error) {
       throw new InternalServerErrorException(error.message)

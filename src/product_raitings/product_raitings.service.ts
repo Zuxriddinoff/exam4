@@ -52,7 +52,7 @@ export class ProductRaitingsService {
         ],
         group: ['product_id'],
         order: [[this.sequelize.fn('AVG', this.sequelize.col('rayting')), 'DESC']],
-        limit: 1
+        limit: 100
       });      
     }
     
