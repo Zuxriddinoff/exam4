@@ -5,6 +5,7 @@ import { UpdateProductRaitingDto } from './dto/update-product_raiting.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { ProductRaiting } from './models/product_raiting.model';
 import { Product } from 'src/product/models/product.model';
+import { User } from 'src/user/common/models/user.model';
 
 @Injectable()
 export class ProductRaitingsService {
@@ -25,7 +26,7 @@ export class ProductRaitingsService {
   
   async findAll() {
     try {
-        return this.model.findAll({include:{model:Product}})
+        return this.model.findAll({include: [Product, User]})
     } catch (error) {
         throw new InternalServerErrorException(error.message) 
       }
@@ -33,7 +34,7 @@ export class ProductRaitingsService {
     
   async findOne(id: number) {
     try {
-        const productrarinig = await this.model.findByPk(id, {include:{model: Product}})
+        const productrarinig = await this.model.findByPk(id, {include: [Product, User]},)
         if (!productrarinig) {
           throw new ConflictException('product raiting id not found')
         }
