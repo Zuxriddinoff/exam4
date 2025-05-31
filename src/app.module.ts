@@ -8,6 +8,7 @@ import { Category } from './category/models/category.model';
 import { User } from './user/common/models/user.model';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/models/product.model';
+import { UserModule } from './user/common/user.module';
 
 @Module({
   imports: [
@@ -25,8 +26,10 @@ import { Product } from './product/models/product.model';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [User, Product],
+      models: [User, Product, ProductRaiting, Category],
     }),
+    CategoryModule,
+    ProductRaitingsModule,
     UserModule,
     ProductModule,
   ],
