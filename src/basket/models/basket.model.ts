@@ -1,28 +1,45 @@
-import { Table, Column, Model, DataType } from "sequelize-typescript";
+// ---------------------------------------- Ohirgacha emas, HATOLARI KO'P ----------------------------------------
 
-@Table({ tableName: 'basket' })
-export class Basket extends Model {
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
-    user_id: number;
+// import {
+//     Table,
+//     Column,
+//     Model,
+//     DataType,
+//     ForeignKey,
+// } from 'sequelize-typescript';
+// import { User } from '../../';
+// import { Product } from '../../product.model';
 
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
-    quantity: number;
+// @Table({ tableName: 'basket', timestamps: false })
+// export class Basket extends Model {
+//     @ForeignKey(() => User)
+//     @Column({
+//         type: DataType.BIGINT,
+//         allowNull: false,
+//     })
+//     user_id: number;
 
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
-    product_id: number;
+//     @Column({
+//         type: DataType.INTEGER,
+//         allowNull: false,
+//     })
+//     quantity: number;
 
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
-    total_price: number;
-}
+//     @ForeignKey(() => Product)
+//     @Column({
+//         type: DataType.BIGINT,
+//         allowNull: false,
+//     })
+//     product_id: number;
+
+//     @Column({
+//         type: DataType.DECIMAL,
+//         allowNull: false,
+//     })
+//     total_price: number;
+// }
+
+
+
+
+// ---------------------------------------- Ohirgacha emas, HATOLARI KO'P ----------------------------------------

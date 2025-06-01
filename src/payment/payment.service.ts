@@ -20,7 +20,6 @@ export class PaymentService {
       throw new Error('Erorr in to PAYMENT ' + error.message);
     }
   }
-
   async findAll() {
     try {
       return await this.paymentModel.findAll();
