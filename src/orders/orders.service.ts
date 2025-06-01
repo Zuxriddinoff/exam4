@@ -17,7 +17,7 @@ export class OrdersService {
       const order = await this.orderModel.create({...createOrderDto});
       return order;
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -25,7 +25,7 @@ export class OrdersService {
     try {
       return await this.orderModel.findAll();
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
   
@@ -37,7 +37,7 @@ export class OrdersService {
       }
       return order;
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -50,7 +50,7 @@ export class OrdersService {
       await order.update(updateOrderDto);
       return order;
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -63,7 +63,7 @@ export class OrdersService {
       await order.destroy();
       return { message: 'Buyurtma ochirib tashlandi' };
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 }

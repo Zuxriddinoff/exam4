@@ -17,7 +17,7 @@ export class OrdersItemService {
       const item = await this.orderItemModel.create({ ...createOrdersItemDto });
       return item;
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -25,7 +25,7 @@ export class OrdersItemService {
     try {
       return await this.orderItemModel.findAll();
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -37,7 +37,7 @@ export class OrdersItemService {
       }
       return items;
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -49,7 +49,7 @@ export class OrdersItemService {
       }
       return item;
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -62,7 +62,7 @@ export class OrdersItemService {
       await item.update(updateOrdersItemDto);
       return item;
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 
@@ -75,7 +75,7 @@ export class OrdersItemService {
       await item.destroy();
       return { message: 'Order item ochirildi' };
     } catch (error) {
-      catchError(error);
+      return catchError(error);
     }
   }
 }
