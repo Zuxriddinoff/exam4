@@ -32,4 +32,5 @@ export class Payment extends Model<Payment, CreatePaymentDto> {
     })
     order_id: number;
 }
+
 // ---------------------------------------- Ohirgacha emas, HATOLARI KO'P ----------------------------------------
