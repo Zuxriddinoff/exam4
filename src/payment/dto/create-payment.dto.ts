@@ -1,17 +1,16 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
-import { Status } from "src/enum";
+import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { Payment_type, Status } from 'src/enum';
 
 export class CreatePaymentDto {
     @IsNotEmpty()
-    @IsString()
-    payment_type: string
+    @IsEnum(Payment_type)
+    payment_type: Payment_type;
 
     @IsNotEmpty()
     @IsEnum(Status)
-    status: Status
+    status: Status;
 
     @IsNotEmpty()
     @IsNumber()
-    order_id: number
-
+    order_id: number;
 }
