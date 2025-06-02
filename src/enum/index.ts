@@ -1,7 +1,12 @@
-// export enum Status {
-//     ACTIVE = 'active',
-//     INACTIVE = 'inactive'
-// }
+export enum Status {
+  PAID = 'paid',
+  UNPAID = 'unpaid'
+}
+
+export enum Payment_type {
+  CARD = 'card',
+  CASH = 'cash'
+}
 
 export enum Roles {
   SUPERADMIN = 'superadmin',
@@ -11,8 +16,6 @@ export enum Roles {
 }
 
 export enum Status {
-  ACCEPTED = 'accepted',
-  PROCESS = 'process',
-  DELIVERY = 'delivery',
-  CLOSED = 'closed'
-};
+  ACTIVE = 'active',
+  INACTIVE = 'inactive'
+}

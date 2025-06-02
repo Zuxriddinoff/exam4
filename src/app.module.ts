@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Order } from './orders/models/orders.model';
 import { OrderItem } from './orders-item/models/orders-item.model';
 import { OrdersModule } from './orders/orders.module';
 import { OrdersItemModule } from './orders-item/orders-item.module';
+import { BasketModule } from './basket/basket.module';
+import { PaymentModule } from './payment/payment.module';
 import { User } from './user/common/models/user.model';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/models/product.model';
@@ -17,17 +19,22 @@ import { MailModule } from './mail/mail.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.PG_HOST,
-      username: process.env.PG_USER,
-      port: Number(process.env.PG_PORT),
-      password: String(process.env.PG_PASS),
-      database: process.env.PG_DB,
-      synchronize: true,
-      autoLoadModels: true,
-      logging: false,
-      models: [User, Product],
+
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        dialect: 'postgres',
+        host: config.get('PG_HOST'),
+        port: config.get<number>('PG_PORT'),
+        username: config.get('PG_USER'),
+        password: config.get('PG_PASS'),
+        database: config.get('PG_DB'),
+        autoLoadModels: true,
+        synchronize: true,
+        logging: false,
+        models: [User, Product],
+      }),
     }),
     JwtModule.register({
       global:true
