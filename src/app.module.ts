@@ -16,6 +16,7 @@ import { CategoryModule } from './category/category.module';
 import { ProductRaitingsModule } from './product_raitings/product_raitings.module';
 import { ProductRaiting } from './product_raitings/models/product_raiting.model';
 import { Category } from './category/models/category.model';
+import { UserModule } from './user/common/user.module';
 
 @Module({
   imports: [
