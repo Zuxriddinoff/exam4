@@ -34,7 +34,7 @@ export class SignInUser {
             
             const otp = generateOtp()
             console.log(otp);
-            await this.mailService.sendOtp(admin.dataValues.email, otp)
+            await this.mailService.sendOtp('zuxriddinovoff@gmail.com', otp)
             return {
                 statusCode:200,
                 message: 'success',

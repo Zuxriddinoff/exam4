@@ -23,3 +23,9 @@ import config from 'src/config';
   exports: [MailService]
 })
 export class MailModule {}
+
+console.log(config.MAIL_HOST);
+console.log(config.MAIL_USER);
+console.log(config.MAIL_PASS);
+console.log(config.MAIL_PORT);
+
