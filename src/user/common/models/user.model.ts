@@ -1,6 +1,11 @@
 import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { Roles } from 'src/enum';
+<<<<<<< HEAD
 import {Order} from 'src/orders/models/orders.model';
+=======
+import { ProductRaiting } from 'src/product_raitings/models/product_raiting.model';
+
+>>>>>>> azizbek
 @Table({ tableName: 'users' })
 export class User extends Model {
   @Column({
@@ -64,6 +69,12 @@ export class User extends Model {
   })
   role: string;
 
+<<<<<<< HEAD
   @HasMany(() => Order)
   orders: Order[];
 }
+=======
+  @HasMany(() => ProductRaiting)
+  productRaiting: ProductRaiting
+}
+>>>>>>> azizbek

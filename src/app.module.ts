@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Order } from './orders/models/orders.model';
-import { OrderItem } from './orders-item/models/orders-item.model';
+import { OrdersItem } from './orders-item/models/orders-item.model';
 import { OrdersModule } from './orders/orders.module';
 import { OrdersItemModule } from './orders-item/orders-item.module';
 import { BasketModule } from './basket/basket.module';
@@ -12,6 +12,10 @@ import { ProductModule } from './product/product.module';
 import { Product } from './product/models/product.model';
 import { JwtModule } from '@nestjs/jwt';
 import { MailModule } from './mail/mail.module';
+import { CategoryModule } from './category/category.module';
+import { ProductRaitingsModule } from './product_raitings/product_raitings.module';
+import { ProductRaiting } from './product_raitings/models/product_raiting.model';
+import { Category } from './category/models/category.model';
 
 @Module({
   imports: [
@@ -39,6 +43,8 @@ import { MailModule } from './mail/mail.module';
     JwtModule.register({
       global:true
     }),
+    CategoryModule,
+    ProductRaitingsModule,
     UserModule,
     ProductModule,
     MailModule,
