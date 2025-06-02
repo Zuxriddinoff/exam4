@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { OrderItem } from "src/orders-item/models/orders-item.model";
 
 @Table({tableName:'product'})
 export class Product extends Model{
@@ -30,5 +31,6 @@ export class Product extends Model{
     })
     description:string;
 
-    
+    @HasMany(() => OrderItem)
+    order_items: OrderItem[];
 }

@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserModule } from './user//common/user.module';
+import { Order } from './orders/models/orders.model';
+import { OrderItem } from './orders-item/models/orders-item.model';
+import { OrdersModule } from './orders/orders.module';
+import { OrdersItemModule } from './orders-item/orders-item.module';
 import { User } from './user/common/models/user.model';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/models/product.model';

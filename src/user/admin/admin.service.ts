@@ -23,12 +23,13 @@ export class AdminService implements OnModuleInit {
       const isSuperAdmin = await this.model.findOne({
         where: { role: Roles.SUPERADMIN },
       });
+      
       if (!isSuperAdmin) {
         const hashedPassword = await encrypt(config.ADMIN_PASSWORD);
         await this.model.create({
           firstName: config.ADMIN_FIRST_NAME,
           lastName: config.ADMIN_LAST_NAME,
-          age: config.ADMIN_AGE,
+          age:config.ADMIN_AGE,
           gender: config.ADMIN_GENDER,
           email: config.ADMIN_EMAIL,
           hashedPassword,

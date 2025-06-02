@@ -9,3 +9,10 @@ export enum Roles {
   CUSTOMER = 'customer',
   SELLER = 'seller',
 }
+
+export enum Status {
+  ACCEPTED = 'accepted',
+  PROCESS = 'process',
+  DELIVERY = 'delivery',
+  CLOSED = 'closed'
+};
