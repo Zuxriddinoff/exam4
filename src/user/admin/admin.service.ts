@@ -37,35 +37,37 @@ export class AdminService implements OnModuleInit {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new InternalServerErrorException(error.message);
     }
   }
 
-  async createAdmin(createUserDto:CreateUserDto){
-    const {email, password, phoneNumber} = createUserDto
-    const existsEmail = await this.model.findOne({where:{email}})
-    if(existsEmail){
-      return `email or phone number already exists`
+  async createAdmin(createUserDto: CreateUserDto) {
+    const { email, password, phoneNumber } = createUserDto;
+    const existsEmail = await this.model.findOne({ where: { email } });
+    if (existsEmail) {
+      return `email or phone number already exists`;
     }
-    const existsPhoneNumber = await this.model.findOne({where:{phoneNumber}})
-    if(existsPhoneNumber){
-      return `email or phone number already exists`
+    const existsPhoneNumber = await this.model.findOne({
+      where: { phoneNumber },
+    });
+    if (existsPhoneNumber) {
+      return `email or phone number already exists`;
     }
-    const hashedPassword = await encrypt(password)
+    const hashedPassword = await encrypt(password);
     const admin = this.model.create({
       ...createUserDto,
       hashedPassword,
-      role:Roles.ADMIN
-    })
+      role: Roles.ADMIN,
+    });
     return {
-            statusCode:201,
-            message:'succes',
-            data:admin
-        }
+      statusCode: 201,
+      message: 'succes',
+      data: admin,
+    };
   }
 
-  async findAll(){
+  async findAll() {
     const admin = await this.model.findAll({
       where: {
         role: {
@@ -74,49 +76,52 @@ export class AdminService implements OnModuleInit {
       },
     });
     return {
-        statusCode:200,
-        message:'succes',
-        data:admin
-    }
+      statusCode: 200,
+      message: 'succes',
+      data: admin,
+    };
   }
 
-  async findOne(id:number){
-    const admin = await this.model.findOne({where:{id}})
-    if(!admin){
-      return `admin not found by id => ${id}`
+  async findOne(id: number) {
+    const admin = await this.model.findOne({ where: { id } });
+    if (!admin) {
+      return `admin not found by id => ${id}`;
     }
     return {
-        statusCode:200,
-        message:'succes',
-        data:admin
-    }
+      statusCode: 200,
+      message: 'succes',
+      data: admin,
+    };
   }
 
-  async updateAdmin(id:number, updateUserDto:UpdateUserDto){
+  async updateAdmin(id: number, updateUserDto: UpdateUserDto) {
     try {
-        const admin = await this.model.update(updateUserDto, {where:{id}, returning:true})
-        if(!admin){
-            return `admin not found by id ${id}`
-        }
-        return {
-            statusCode:200,
-            message:'succes',
-            data:admin[1][0]
-        }
+      const admin = await this.model.update(updateUserDto, {
+        where: { id },
+        returning: true,
+      });
+      if (!admin) {
+        return `admin not found by id ${id}`;
+      }
+      return {
+        statusCode: 200,
+        message: 'succes',
+        data: admin[1][0],
+      };
     } catch (error) {
-        throw new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message);
     }
   }
 
-  async delete(id:number){
-    const admin = await this.model.findOne({where:{id}})
-    console.log("admin",admin);
-    console.log("admin role", admin?.role);
-    if(admin?.dataValues.role === Roles.SUPERADMIN){
-      return `You're stupid, you can't delete super admin`
-    }else{
-      await this.model.destroy({where:{id}})
-      return {data:{}}
+  async delete(id: number) {
+    const admin = await this.model.findOne({ where: { id } });
+    console.log('admin', admin);
+    console.log('admin role', admin?.role);
+    if (admin?.dataValues.role === Roles.SUPERADMIN) {
+      return `You're stupid, you can't delete super admin`;
+    } else {
+      await this.model.destroy({ where: { id } });
+      return { data: {} };
     }
   }
 }

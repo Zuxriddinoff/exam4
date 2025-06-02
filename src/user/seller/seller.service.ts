@@ -48,7 +48,9 @@ export class SellerService {
 
   async getAll() {
     try {
-      const sellers = await this.model.findAll({where:{role:Roles.SELLER}});
+      const sellers = await this.model.findAll({
+        where: { role: Roles.SELLER },
+      });
       return {
         statusCode: 200,
         message: 'success',

@@ -66,5 +66,5 @@ export class User extends Model {
   role: string;
 
   @HasMany(() => ProductRaiting)
-  productRaiting: ProductRaiting
+  productRaiting: ProductRaiting;
 }

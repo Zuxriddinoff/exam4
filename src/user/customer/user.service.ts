@@ -48,7 +48,9 @@ export class UserService {
 
   async getAll() {
     try {
-      const customers = await this.model.findAll({where:{role:Roles.CUSTOMER}});
+      const customers = await this.model.findAll({
+        where: { role: Roles.CUSTOMER },
+      });
       return {
         statusCode: 200,
         message: 'success',
@@ -102,28 +104,27 @@ export class UserService {
         returning: true,
       });
 
-      if(!customer){
-        throw new ConflictException(`customer not found by id ${id}`)
+      if (!customer) {
+        throw new ConflictException(`customer not found by id ${id}`);
       }
 
       return {
         statusCode: 200,
         message: 'succes',
-        data: customer[1][0]
+        data: customer[1][0],
       };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
 
-  async delete(id:number){
-    const admin = await this.model.findOne({where:{id}})
-    if(admin?.dataValues.role === Roles.SUPERADMIN){
-      return `You're stupid, you can't delete super admin`
-    }else{
-      await this.model.destroy({where:{id}})
-      return {data:{}}
+  async delete(id: number) {
+    const admin = await this.model.findOne({ where: { id } });
+    if (admin?.dataValues.role === Roles.SUPERADMIN) {
+      return `You're stupid, you can't delete super admin`;
+    } else {
+      await this.model.destroy({ where: { id } });
+      return { data: {} };
     }
   }
 }
-
