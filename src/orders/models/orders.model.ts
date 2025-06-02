@@ -1,5 +1,6 @@
-import { Column, Table, Model, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { Column, Table, Model, DataType, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
 import { Status } from "src/enum";
+import { OrderItem } from "src/orders-item/models/orders-item.model";
 import { User } from "src/user/common/models/user.model";
 
 @Table({
@@ -47,4 +48,7 @@ export class Order extends Model {
         allowNull: false
     })
     delivery_price: number
+
+    @HasMany(() => OrderItem)
+    order_items: OrderItem[];
 }

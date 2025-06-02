@@ -6,6 +6,8 @@ import { OrderItem } from './orders-item/models/orders-item.model';
 import { OrdersModule } from './orders/orders.module';
 import { OrdersItemModule } from './orders-item/orders-item.module';
 import { User } from './user/common/models/user.model';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/models/product.model';
 import { UserModule } from './user/common/user.module';
 
 @Module({
@@ -24,11 +26,12 @@ import { UserModule } from './user/common/user.module';
       synchronize: true,
       autoLoadModels: true,
       logging: false,
-      models: [Order, OrderItem, User]
+      models: [User, Product, Order, OrderItem],
     }),
     UserModule,
+    ProductModule,
     OrdersModule,
-    OrdersItemModule,
+    OrdersItemModule
   ],
 })
 export class AppModule {}
