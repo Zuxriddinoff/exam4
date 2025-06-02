@@ -5,6 +5,9 @@ import { UserModule } from './user//common/user.module';
 import { User } from './user/common/models/user.model';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/models/product.model';
+import { JwtModule } from '@nestjs/jwt';
+import { SignInUserModule } from './user/auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -24,8 +27,13 @@ import { Product } from './product/models/product.model';
       logging: false,
       models: [User, Product],
     }),
+    JwtModule.register({
+      global:true
+    }),
+    SignInUserModule,
     UserModule,
     ProductModule,
+    MailModule,
   ],
 })
 export class AppModule {}
