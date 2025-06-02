@@ -13,6 +13,8 @@ import { Order } from './orders/models/orders.model';
 import { OrdersModule } from './orders/orders.module';
 import { ProductRaiting } from './product_raitings/models/product_raiting.model';
 import { OrderItem } from './orders-item/models/orders-item.model';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -40,6 +42,9 @@ import { OrderItem } from './orders-item/models/orders-item.model';
     JwtModule.register({
       global:true
     }),
+    CacheModule.register({
+      isGlobal:true
+    }),
     CategoryModule,
     ProductRaitingsModule,
     UserModule,
@@ -47,5 +52,9 @@ import { OrderItem } from './orders-item/models/orders-item.model';
     MailModule,
     OrdersModule
   ],
+  providers:[{
+    provide:APP_INTERCEPTOR,
+    useClass: CacheInterceptor
+  }]
 })
 export class AppModule {}

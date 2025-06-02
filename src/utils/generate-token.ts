@@ -19,4 +19,7 @@ export class Token {
       expiresIn: config.REFRESH_TOKEN_TIME,
     });
   };
+
+  
+
 }

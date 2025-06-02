@@ -11,6 +11,7 @@ import { MailModule } from 'src/mail/mail.module';
 import { SignInUserController } from '../auth/auth.controller';
 import { SignInUser } from '../auth/auth.service';
 import { Token } from 'src/utils/generate-token';
+import { writeToCookie } from 'src/utils/write-cookiie';
 
 @Module({
   imports: [SequelizeModule.forFeature([User]), MailModule],
