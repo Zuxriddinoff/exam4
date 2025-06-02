@@ -1,5 +1,4 @@
 import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
-import { OrdersItem } from "src/orders-item/models/orders-item.model";
 import { ProductRaiting } from "src/product_raitings/models/product_raiting.model";
 
 @Table({tableName:'product'})
@@ -32,6 +31,6 @@ export class Product extends Model{
     })
     description:string;
 
-    @HasMany(() => OrderItem)
-    order_items: OrderItem[];
+    @HasMany(() => ProductRaiting)
+    order_items: ProductRaiting[];
 }

@@ -31,9 +31,9 @@ export class Order extends Model {
     total_price: number;
 
     @Column({
-        type: DataType.ENUM(Status.ACCEPTED, Status.PROCESS, Status.DELIVERY, Status.CLOSED),
+        type: DataType.ENUM(Status.PAID, Status.UNPAID),
         allowNull: false,
-        defaultValue: Status.ACCEPTED
+        defaultValue: Status.UNPAID
     })
     status: string;
 

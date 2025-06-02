@@ -1,12 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Order } from './orders/models/orders.model';
-import { OrdersItem } from './orders-item/models/orders-item.model';
-import { OrdersModule } from './orders/orders.module';
-import { OrdersItemModule } from './orders-item/orders-item.module';
-import { BasketModule } from './basket/basket.module';
-import { PaymentModule } from './payment/payment.module';
 import { User } from './user/common/models/user.model';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/models/product.model';
@@ -14,9 +8,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { MailModule } from './mail/mail.module';
 import { CategoryModule } from './category/category.module';
 import { ProductRaitingsModule } from './product_raitings/product_raitings.module';
-import { ProductRaiting } from './product_raitings/models/product_raiting.model';
-import { Category } from './category/models/category.model';
 import { UserModule } from './user/common/user.module';
+import { Order } from './orders/models/orders.model';
+import { OrdersModule } from './orders/orders.module';
+import { ProductRaiting } from './product_raitings/models/product_raiting.model';
+import { OrderItem } from './orders-item/models/orders-item.model';
 
 @Module({
   imports: [
@@ -38,7 +34,7 @@ import { UserModule } from './user/common/user.module';
         autoLoadModels: true,
         synchronize: true,
         logging: false,
-        models: [User, Product],
+        models: [User, Product, Order, ProductRaiting, OrderItem,],
       }),
     }),
     JwtModule.register({
@@ -49,6 +45,7 @@ import { UserModule } from './user/common/user.module';
     UserModule,
     ProductModule,
     MailModule,
+    OrdersModule
   ],
 })
 export class AppModule {}

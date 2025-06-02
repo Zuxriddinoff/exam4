@@ -5,9 +5,9 @@ import {
     DataType,
     ForeignKey,
 } from 'sequelize-typescript';
-import { Order } from '../../orders/models/order.model';
 import { Payment_type, Status } from '../../enum/index';
 import { CreatePaymentDto } from '../dto/create-payment.dto';
+import { Order } from 'src/orders/models/orders.model';
 
 @Table({ tableName: 'payment', timestamps: false })
 export class Payment extends Model<Payment, CreatePaymentDto> {
