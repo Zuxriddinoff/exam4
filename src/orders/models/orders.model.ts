@@ -49,6 +49,9 @@ export class Order extends Model {
     })
     delivery_price: number
 
-    @HasMany(() => OrderItem)
+    @HasMany(() => OrderItem, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
     order_items: OrderItem[];
 }
