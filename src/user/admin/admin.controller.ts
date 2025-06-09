@@ -12,11 +12,15 @@ import { CreateUserDto } from '../common/dto/create-user.dto';
 import { UpdateUserDto } from '../common/dto/update-user.dto';
 import { AdminService } from './admin.service';
 import { AuthGouard } from 'src/guards/auth.guard';
+import { RolesGuard } from 'src/guards/role.guard';
+import { CheckRoles } from 'src/decorators/role.decaretors';
+import { Roles } from 'src/enum';
 
 @Controller('admin')
 export class AminController {
   constructor(private readonly adminService: AdminService) {}
-  @UseGuards(AuthGouard)
+  @UseGuards(AuthGouard, RolesGuard)
+  @CheckRoles(Roles.SUPERADMIN)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.adminService.createAdmin(createUserDto);
