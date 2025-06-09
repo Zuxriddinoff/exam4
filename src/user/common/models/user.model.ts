@@ -67,7 +67,10 @@ export class User extends Model {
   role: string;
 
 
-  @HasMany(() => Order)
+  @HasMany(() => Order, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   orders: Order[];
 
 

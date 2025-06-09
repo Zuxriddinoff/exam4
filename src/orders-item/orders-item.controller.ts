@@ -40,4 +40,3 @@ export class OrdersItemController {
     return this.ordersItemService.removeOrderItem(id);
   }
 }
-

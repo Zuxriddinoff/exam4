@@ -12,7 +12,6 @@ import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Cache } from "cache-manager";
 import { ConfirmSignInUserDto } from "../common/dto/confirm.signin.user.dto";
 import { writeToCookie } from "src/utils/write-cookiie";
-import { ref } from "process";
 
 @Injectable()
 export class SignInUser {
