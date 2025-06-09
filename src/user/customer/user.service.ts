@@ -8,8 +8,9 @@ import { CreateUserDto } from '../common/dto/create-user.dto';
 import { UpdateUserDto } from '../common/dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from '../common/models/user.model';
-import { encrypt } from 'utils/bcrypt-decrypt';
 import { Roles } from 'src/enum';
+import { encrypt } from 'src/utils/bcrypt-decrypt';
+import { catchError } from 'src/utils/catch-error';
 
 @Injectable()
 export class UserService {
@@ -42,7 +43,7 @@ export class UserService {
         data: customer,
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+      return catchError(error)
     }
   }
 
@@ -57,7 +58,7 @@ export class UserService {
         data: customers,
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+      return catchError(error)
     }
   }
 
@@ -65,7 +66,7 @@ export class UserService {
     try {
       const customer = await this.model.findOne({ where: { id } });
       if (!customer) {
-        return `customer not found by id ${id}`;
+        throw new ConflictException(`customer not found by id ${id}`);
       }
       return {
         statusCode: 200,
@@ -73,29 +74,9 @@ export class UserService {
         data: customer,
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+      return catchError(error)
     }
   }
-
-  // async update(id: number, updateUserDto: UpdateUserDto): Promise<object> {
-  //   try {
-  //     const user = await this.model.findByPk(id)
-  //     if(!user){
-  //       throw new ConflictException(`user not found by id ${id}`)
-  //     }
-  //     const customer = await this.model.update({...updateUserDto}, {
-  //       where: { id },
-  //       returning: true
-  //     });
-  //     return {
-  //       statusCode: 200,
-  //       message: 'success',
-  //       data: customer,
-  //     };
-  //   } catch (error) {
-  //     throw new InternalServerErrorException(error.message);
-  //   }
-  // }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<object> {
     try {
@@ -114,17 +95,21 @@ export class UserService {
         data: customer[1][0],
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+        return catchError(error)
     }
   }
 
-  async delete(id: number) {
-    const admin = await this.model.findOne({ where: { id } });
-    if (admin?.dataValues.role === Roles.SUPERADMIN) {
-      return `You're stupid, you can't delete super admin`;
-    } else {
-      await this.model.destroy({ where: { id } });
-      return { data: {} };
+  async delete(id:number){
+    try {
+      const admin = await this.model.findOne({where:{id}})
+    if(admin?.dataValues.role === Roles.SUPERADMIN){
+      throw new ConflictException(`You're stupid, you can't delete super admin`)
+    }else{
+      await this.model.destroy({where:{id}})
+      return {data:{}}
+    }
+    } catch (error) {
+      return catchError(error) 
     }
   }
 }

@@ -1,14 +1,21 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { CategoryModule } from './category/category.module';
-import { ProductRaitingsModule } from './product_raitings/product_raitings.module';
-import { ProductRaiting } from './product_raitings/models/product_raiting.model';
-import { Category } from './category/models/category.model';
 import { User } from './user/common/models/user.model';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/models/product.model';
+import { JwtModule } from '@nestjs/jwt';
+import { MailModule } from './mail/mail.module';
+import { CategoryModule } from './category/category.module';
+import { ProductRaitingsModule } from './product_raitings/product_raitings.module';
 import { UserModule } from './user/common/user.module';
+import { Order } from './orders/models/orders.model';
+import { OrdersModule } from './orders/orders.module';
+import { ProductRaiting } from './product_raitings/models/product_raiting.model';
+import { OrderItem } from './orders-item/models/orders-item.model';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { Category } from './category/models/category.model';
 
 @Module({
   imports: [
@@ -16,22 +23,39 @@ import { UserModule } from './user/common/user.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.PG_HOST,
-      username: process.env.PG_USER,
-      port: Number(process.env.PG_PORT),
-      password: String(process.env.PG_PASS),
-      database: process.env.PG_DB,
-      synchronize: true,
-      autoLoadModels: true,
-      logging: false,
-      models: [User, Product, ProductRaiting, Category],
+
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        dialect: 'postgres',
+        host: config.get('PG_HOST'),
+        port: config.get<number>('PG_PORT'),
+        username: config.get('PG_USER'),
+        password: config.get('PG_PASS'),
+        database: config.get('PG_DB'),
+        autoLoadModels: true,
+        synchronize: true,
+        logging: false,
+        models: [User, Category, Product, Order, ProductRaiting, OrderItem,],
+      }),
+    }),
+    JwtModule.register({
+      global:true
+    }),
+    CacheModule.register({
+      isGlobal:true
     }),
     CategoryModule,
     ProductRaitingsModule,
     UserModule,
     ProductModule,
+    MailModule,
+    OrdersModule
   ],
+  providers:[{
+    provide:APP_INTERCEPTOR,
+    useClass: CacheInterceptor
+  }]
 })
 export class AppModule {}

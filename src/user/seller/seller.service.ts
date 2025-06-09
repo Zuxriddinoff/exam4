@@ -8,8 +8,9 @@ import { CreateUserDto } from '../common/dto/create-user.dto';
 import { UpdateUserDto } from '../common/dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from '../common/models/user.model';
-import { encrypt } from 'utils/bcrypt-decrypt';
 import { Roles } from 'src/enum';
+import { encrypt } from 'src/utils/bcrypt-decrypt';
+import { catchError } from 'src/utils/catch-error';
 
 @Injectable()
 export class SellerService {
@@ -34,7 +35,6 @@ export class SellerService {
         hashedPassword,
         role: Roles.SELLER,
       });
-      console.log(seller);
 
       return {
         statusCode: 201,
@@ -42,7 +42,7 @@ export class SellerService {
         data: seller,
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+      return catchError(error)
     }
   }
 
@@ -57,7 +57,7 @@ export class SellerService {
         data: sellers,
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+        return catchError(error)
     }
   }
 
@@ -65,7 +65,7 @@ export class SellerService {
     try {
       const seller = await this.model.findOne({ where: { id } });
       if (!seller) {
-        return `seller not found by id ${id}`;
+        throw new ConflictException(`seller not found by id ${id}`);
       }
       return {
         statusCode: 200,
@@ -73,7 +73,7 @@ export class SellerService {
         data: seller,
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+        return catchError(error)
     }
   }
 
@@ -94,17 +94,21 @@ export class SellerService {
         data: seller[1][0],
       };
     } catch (error) {
-      throw new InternalServerErrorException(error.message);
+        return catchError(error)
     }
   }
 
   async delete(id: number) {
-    const admin = await this.model.findOne({ where: { id } });
+    try {
+      const admin = await this.model.findOne({ where: { id } });
     if (admin?.dataValues.role === Roles.SUPERADMIN) {
-      return `You're stupid, you can't delete super admin`;
+      throw new ConflictException(`You're stupid, you can't delete super admin`);
     } else {
       await this.model.destroy({ where: { id } });
       return { data: {} };
+    }
+    } catch (error) {
+     return catchError(error) 
     }
   }
 }

@@ -3,6 +3,7 @@ import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Product } from './models/product.model';
+import { Category } from 'src/category/models/category.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([Product])],

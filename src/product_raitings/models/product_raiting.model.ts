@@ -1,11 +1,4 @@
-import {
-  BelongsTo,
-  Column,
-  DataType,
-  ForeignKey,
-  Model,
-  Table,
-} from 'sequelize-typescript';
+import {BelongsTo,Column,DataType,ForeignKey,Model,Table,} from 'sequelize-typescript';
 import { Raiting } from 'src/enum';
 import { Product } from 'src/product/models/product.model';
 import { User } from 'src/user/common/models/user.model';

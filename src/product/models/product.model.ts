@@ -1,4 +1,5 @@
-import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
+import { Category } from 'src/category/models/category.model';
 import { ProductRaiting } from 'src/product_raitings/models/product_raiting.model';
 
 @Table({ tableName: 'product' })
@@ -20,6 +21,18 @@ export class Product extends Model {
     allowNull: false,
   })
   stock: number;
+
+  @ForeignKey(() => Category)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  category_id: number;
+    @BelongsTo(() => Category, {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    })
+    category: Category;
 
   @Column({
     type: DataType.STRING,

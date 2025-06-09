@@ -6,15 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from '../common/dto/create-user.dto';
 import { UpdateUserDto } from '../common/dto/update-user.dto';
 import { AdminService } from './admin.service';
+import { AuthGouard } from 'src/guards/auth.guard';
 
 @Controller('admin')
 export class AminController {
   constructor(private readonly adminService: AdminService) {}
-
+  @UseGuards(AuthGouard)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.adminService.createAdmin(createUserDto);
