@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Basket } from './models/basket.model';
 import { CreateBasketDto } from './dto/create-basket.dto';
 import { UpdateBasketDto } from './dto/update-basket.dto';
+import { User } from 'src/user/common/models/user.model';
+import { Product } from 'src/product/models/product.model';
 
 @Injectable()
 export class BasketService {
@@ -19,7 +21,7 @@ export class BasketService {
 
   async findAll() {
     try {
-      return await this.basketModel.findAll();
+      return await this.basketModel.findAll({ include: [User, Product] });
     } catch (error) {
       throw new InternalServerErrorException('Erorr get BASKETS');
     }
@@ -27,7 +29,7 @@ export class BasketService {
 
   async findOne(id: number) {
     try {
-      const basket = await this.basketModel.findByPk(id);
+      const basket = await this.basketModel.findByPk(id, { include: [User, Product] });
       if (!basket) throw new NotFoundException('BASKET not found');
       return basket;
     } catch (error) {

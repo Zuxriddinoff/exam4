@@ -7,6 +7,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from './models/product.model';
+import { ProductRaiting } from 'src/product_raitings/models/product_raiting.model';
 
 @Injectable()
 export class ProductService {
@@ -26,7 +27,7 @@ export class ProductService {
   }
 
   async findAll() {
-    const product = await this.model.findAll();
+    const product = await this.model.findAll({ include: [ProductRaiting] });
     return {
       StatusCode: 200,
       message: 'success',
@@ -35,7 +36,7 @@ export class ProductService {
   }
 
   async findOne(id: number) {
-    const product = await this.model.findByPk(id);
+    const product = await this.model.findByPk(id, { include: [ProductRaiting] });
     if (!product) {
       return `product not found by id ${id}`;
     }
