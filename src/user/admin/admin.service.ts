@@ -39,7 +39,7 @@ export class AdminService implements OnModuleInit {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new InternalServerErrorException(error.message);
     }
   }
@@ -108,7 +108,7 @@ export class AdminService implements OnModuleInit {
     }
   }
 
-  async updateAdmin(id:number, updateUserDto:UpdateUserDto){
+  async updateAdmin(id: number, updateUserDto: UpdateUserDto) {
     try {
         const admin = await this.model.update(updateUserDto, {where:{id}, returning:true})
         if(!admin){

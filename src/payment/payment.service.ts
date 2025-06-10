@@ -4,6 +4,7 @@ import { Payment } from './models/payment.model';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { NotFoundException } from '@nestjs/common';
+import { Order } from 'src/orders/models/orders.model';
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class PaymentService {
   }
   async findAll() {
     try {
-      return await this.paymentModel.findAll();
+      return await this.paymentModel.findAll({include: [Order]});
     } catch (error) {
       throw new Error('Erorr gets PAYMENTS: ' + error.message);
     }
@@ -30,7 +31,7 @@ export class PaymentService {
 
   async findOne(id: number) {
     try {
-      const payment = await this.paymentModel.findByPk(id);
+      const payment = await this.paymentModel.findByPk(id, {include: [Order]});
       if (!payment) {
         throw new NotFoundException(`Payment with id ${id} not found`);
       }

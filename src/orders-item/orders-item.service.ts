@@ -4,6 +4,8 @@ import { OrderItem } from './models/orders-item.model';
 import { CreateOrdersItemDto } from './dto/create-orders-item.dto';
 import { UpdateOrdersItemDto } from './dto/update-orders-item.dto';
 import { catchError } from 'src/utils/catch-error';
+import { Product } from 'src/product/models/product.model';
+import { Order } from 'src/orders/models/orders.model';
 
 @Injectable()
 export class OrdersItemService {
@@ -23,7 +25,7 @@ export class OrdersItemService {
 
   async findAllOrderItems() {
     try {
-      return await this.orderItemModel.findAll();
+      return await this.orderItemModel.findAll({include: [Product, Order]});
     } catch (error) {
       return catchError(error);
     }
@@ -43,7 +45,7 @@ export class OrdersItemService {
 
   async findOneOrderItem(id: number) {
     try {
-      const item = await this.orderItemModel.findByPk(id);
+      const item = await this.orderItemModel.findByPk(id, {include: [Product, Order]});
       if (!item) {
         throw new NotFoundException(`ID ${id} bolgan order item topilmadi`);
       }

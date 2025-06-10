@@ -49,7 +49,9 @@ export class UserService {
 
   async getAll() {
     try {
-      const customers = await this.model.findAll({where:{role:Roles.CUSTOMER}});
+      const customers = await this.model.findAll({
+        where: { role: Roles.CUSTOMER },
+      });
       return {
         statusCode: 200,
         message: 'success',
@@ -83,14 +85,14 @@ export class UserService {
         returning: true,
       });
 
-      if(!customer){
-        throw new ConflictException(`customer not found by id ${id}`)
+      if (!customer) {
+        throw new ConflictException(`customer not found by id ${id}`);
       }
 
       return {
         statusCode: 200,
         message: 'succes',
-        data: customer[1][0]
+        data: customer[1][0],
       };
     } catch (error) {
         return catchError(error)
@@ -111,4 +113,3 @@ export class UserService {
     }
   }
 }
-

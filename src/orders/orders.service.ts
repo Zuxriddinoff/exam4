@@ -86,7 +86,7 @@ export class OrdersService {
   
   async findOneOrder(id: number) {
     try {
-      const order = await this.orderModel.findByPk(id);
+      const order = await this.orderModel.findByPk(id, {include: [Order]});
       if (!order) {
         throw new NotFoundException(`ID raqami ${id} bolgan buyurtma topilmadi`);
       }

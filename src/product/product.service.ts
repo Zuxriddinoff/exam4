@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -6,6 +10,8 @@ import { Product } from './models/product.model';
 import { FileService } from 'src/file/file.service';
 import { successRes } from 'src/utils/success-response';
 import { catchError } from 'src/utils/catch-error';
+import { ProductRaiting } from 'src/product_raitings/models/product_raiting.model';
+
 
 @Injectable()
 export class ProductService {
@@ -37,29 +43,29 @@ export class ProductService {
       return successRes(product, 201)
 
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message);
     }
   }
 
   async findAll() {
-    const product = await this.model.findAll()
+    const product = await this.model.findAll({ include: [ProductRaiting] });
     return {
-      StatusCode:200,
-      message:'success',
-      data:product
-    }
+      StatusCode: 200,
+      message: 'success',
+      data: product,
+    };
   }
 
   async findOne(id: number) {
-    const product = await this.model.findByPk(id)
-    if(!product){
-      return `product not found by id ${id}`
+    const product = await this.model.findByPk(id, { include: [ProductRaiting] });
+    if (!product) {
+      return `product not found by id ${id}`;
     }
     return {
-      StatusCode:200,
-      message:'success',
-      data:product
-    }
+      StatusCode: 200,
+      message: 'success',
+      data: product,
+    };
   }
 
  async  update(
@@ -93,14 +99,14 @@ export class ProductService {
   }
 
   async remove(id: number) {
-    const product = await this.model.destroy({where:{id}})
-    if(!product){
-      return `product not found by id ${id}`
+    const product = await this.model.destroy({ where: { id } });
+    if (!product) {
+      return `product not found by id ${id}`;
     }
     return {
-      StatusCode:201,
-      message:'succes',
-      data:{}
-    }
+      StatusCode: 201,
+      message: 'succes',
+      data: {},
+    };
   }
 }

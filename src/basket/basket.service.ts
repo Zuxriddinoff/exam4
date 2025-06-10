@@ -43,7 +43,7 @@ export class BasketService {
 
   async findAll() {
     try {
-      return await this.basketModel.findAll();
+      return await this.basketModel.findAll({ include: {all:true} });
     } catch (error) {
       throw new InternalServerErrorException('Erorr get BASKETS');
     }
@@ -51,7 +51,7 @@ export class BasketService {
 
   async findOne(id: number) {
     try {
-      const basket = await this.basketModel.findByPk(id);
+      const basket = await this.basketModel.findByPk(id, { include: {all:true} });
       if (!basket) throw new NotFoundException('BASKET not found');
       return basket;
     } catch (error) {

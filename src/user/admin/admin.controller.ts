@@ -12,14 +12,18 @@ import { CreateUserDto } from '../common/dto/create-user.dto';
 import { UpdateUserDto } from '../common/dto/update-user.dto';
 import { AdminService } from './admin.service';
 import { AuthGouard } from 'src/guards/auth.guard';
+import { RolesGuard } from 'src/guards/role.guard';
+import { CheckRoles } from 'src/decorators/role.decaretors';
+import { Roles } from 'src/enum';
 
 @Controller('admin')
 export class AminController {
   constructor(private readonly adminService: AdminService) {}
-  @UseGuards(AuthGouard)
+  @UseGuards(AuthGouard, RolesGuard)
+  @CheckRoles(Roles.SUPERADMIN)
   @Post()
-  create(@Body() createUserDto:CreateUserDto){
-    return this.adminService.createAdmin(createUserDto)
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.adminService.createAdmin(createUserDto);
   }
 
   @Get()
@@ -28,17 +32,20 @@ export class AminController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id:string) {
+  findOne(@Param('id') id: string) {
     return this.adminService.findOne(+id);
   }
 
   @Patch(':id')
-  async updateAdmin(@Param('id') id:string, @Body() updateUserDto:UpdateUserDto){
-    return this.adminService.updateAdmin(+id, updateUserDto)
+  async updateAdmin(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.adminService.updateAdmin(+id, updateUserDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id:string){
-    return this.adminService.delete(+id)
+  async delete(@Param('id') id: string) {
+    return this.adminService.delete(+id);
   }
 }

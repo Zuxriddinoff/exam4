@@ -40,7 +40,7 @@ export class SignInUser {
             const otp = generateOtp()
             console.log(otp);
             await this.cacheManager.set(email, otp, 120000 )
-            await this.mailService.sendOtp('zuxriddinovoff@gmail.com', otp)
+            await this.mailService.sendOtp('azizbekmirzavaliyev31@gmail.com', otp)
             return {
                 statusCode:200,
                 message: 'success',

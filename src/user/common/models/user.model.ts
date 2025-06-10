@@ -72,5 +72,5 @@ export class User extends Model {
 
 
   @HasMany(() => ProductRaiting)
-  productRaiting: ProductRaiting
+  productRaiting: ProductRaiting;
 }
