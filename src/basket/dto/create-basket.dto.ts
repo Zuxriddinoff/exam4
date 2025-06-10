@@ -12,4 +12,8 @@ export class CreateBasketDto {
     @IsNotEmpty()
     @IsNumber()
     product_id: number;
+
+    @IsNotEmpty()
+    @IsNumber()
+    total_price: number;
 }

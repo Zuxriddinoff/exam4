@@ -1,15 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards } from '@nestjs/common';
 import { BasketService } from './basket.service';
 import { CreateBasketDto } from './dto/create-basket.dto';
 import { UpdateBasketDto } from './dto/update-basket.dto';
+import { AuthGouard } from '../guards/auth.guard';
+import { Request } from 'express';
 
 @Controller('basket')
 export class BasketController {
-  constructor(private readonly basketService: BasketService) {}
+  constructor(private readonly basketService: BasketService) { }
 
+  @UseGuards(AuthGouard)
   @Post()
-  create(@Body() createBasketDto: CreateBasketDto) {
-    return this.basketService.create(createBasketDto);
+  async create(@Body() dto: CreateBasketDto, @Req() req: Request) {
+    const userId = (req)['id'];
+    return this.basketService.create({ ...dto, user_id: userId });
   }
 
   @Get()
