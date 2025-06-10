@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException, ConflictException, } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Order } from './models/orders.model';
 import { catchError } from 'src/utils/catch-error';
@@ -50,7 +49,7 @@ export class OrdersService {
       }
 
       if (product.dataValues.quantity < basket.dataValues.quantity) {
-        throw new BadRequestException(`There is not enough quantity for product ID ${product.dataValues.id}`);
+        throw new BadRequestException(`Mahsulot ID raqami ${product.dataValues.id} boyicha yetarli miqdorda mahsulot mavjud emas`);
       }
 
       await this.orderItemModel.create({
