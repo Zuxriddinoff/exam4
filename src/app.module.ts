@@ -15,6 +15,13 @@ import { ProductRaiting } from './product_raitings/models/product_raiting.model'
 import { OrderItem } from './orders-item/models/orders-item.model';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { Category } from './category/models/category.model';
+import { Payment } from './payment/models/payment.model';
+import { Basket } from './basket/models/basket.model';
+import { BasketModule } from './basket/basket.module';
+import { PaymentModule } from './payment/payment.module';
+import { OrdersItemModule } from './orders-item/orders-item.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -36,7 +43,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
         autoLoadModels: true,
         synchronize: true,
         logging: false,
-        models: [User, Product, Order, ProductRaiting, OrderItem,],
+        models: [User, Product, Order, ProductRaiting, OrderItem, Category, Payment, Basket],
       }),
     }),
     JwtModule.register({
@@ -50,8 +57,12 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     UserModule,
     ProductModule,
     MailModule,
-    OrdersModule
-  ],
+    OrdersModule,
+    BasketModule,
+    PaymentModule,
+    OrdersItemModule,
+    FileModule
+    ],
   providers:[{
     provide:APP_INTERCEPTOR,
     useClass: CacheInterceptor

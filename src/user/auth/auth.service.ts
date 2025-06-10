@@ -76,4 +76,18 @@ export class SignInUser {
             return catchError(error)
         }
     }
+
+    async signOut(res: Response): Promise<object> {
+    try {
+        res.clearCookie("refreshToken");
+
+        return {
+            statusCode: 200,
+            message: "Successfully signed out",
+        };
+    } catch (error) {
+        return catchError(error);
+    }
+}
+
 }

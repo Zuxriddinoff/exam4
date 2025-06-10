@@ -1,19 +1,43 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Basket } from './models/basket.model';
 import { CreateBasketDto } from './dto/create-basket.dto';
 import { UpdateBasketDto } from './dto/update-basket.dto';
+import { Product } from 'src/product/models/product.model';
 
 @Injectable()
 export class BasketService {
-  constructor(@InjectModel(Basket) private basketModel: typeof Basket) { }
+  constructor(
+    @InjectModel(Basket) private basketModel: typeof Basket,
+    @InjectModel(Product) private productModel: typeof Product,
+  ) {}
 
   async create(createBasketDto: CreateBasketDto) {
     try {
-      const basket = await this.basketModel.create({ ...createBasketDto });
+      const { user_id, product_id, quantity } = createBasketDto;
+
+      const product = await this.productModel.findByPk(product_id);
+      if (!product) {
+        throw new NotFoundException('Mahsulot topilmadi');
+      }
+
+
+      const total_price = Number(product.dataValues.price) * quantity;
+
+      const basket = await this.basketModel.create({
+        user_id,
+        product_id,
+        quantity,
+        total_price,
+      });
+
       return basket;
     } catch (error) {
-      throw new InternalServerErrorException('Erorr on creating BASKET');
+      throw new InternalServerErrorException('BASKET yaratishda xatolik');
     }
   }
 
@@ -42,7 +66,8 @@ export class BasketService {
         returning: true,
       });
 
-      if (count === 0) throw new NotFoundException('BASKET for update not found');
+      if (count === 0)
+        throw new NotFoundException('BASKET for update not found');
       return basket;
     } catch (error) {
       throw error;

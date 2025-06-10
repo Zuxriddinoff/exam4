@@ -9,16 +9,9 @@ export class CreateOrderDto {
     @IsNotEmpty()
     delivery_address: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    total_price: number;
-
     @IsString()
     @IsNotEmpty()
     @IsPhoneNumber('UZ')
     phone_number: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    delivery_price: number;
 }

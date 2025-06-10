@@ -23,5 +23,6 @@ export default {
   MAIL_HOST: String(process.env.MAIL_HOST),
   MAIL_PORT: Number(process.env.MAIL_PORT),
   MAIL_USER: String(process.env.MAIL_USER),
-  MAIL_PASS: String(process.env.MAIL_PASS)
+  MAIL_PASS: String(process.env.MAIL_PASS),
+  BASE_URL:String(process.env.BASE_URL)
 }
