@@ -1,6 +1,7 @@
-import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
-import { OrderItem } from "src/orders-item/models/orders-item.model";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { Category } from "src/category/models/category.model";
 import { ProductRaiting } from "src/product_raitings/models/product_raiting.model";
+import { User } from "src/user/common/models/user.model";
 
 @Table({tableName:'product'})
 export class Product extends Model{
@@ -33,11 +34,32 @@ export class Product extends Model{
     description:string;
 
     @HasMany(() => ProductRaiting)
-    productRaiting: ProductRaiting[];
+    rating: ProductRaiting[];
 
-    @HasMany(() => OrderItem, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+    @ForeignKey(() => Category)
+    @Column({
+        type:DataType.INTEGER,
+        allowNull:false
     })
-    order_items: OrderItem[];
+    category_id:number
+
+    @BelongsTo(() => Category, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    category: Category
+
+    @ForeignKey(() => User)
+    @Column({
+        type:DataType.INTEGER,
+        allowNull:false
+    })
+    seller_id:number
+
+    @BelongsTo(() => User, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    seller: User
+
 }

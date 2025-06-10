@@ -21,4 +21,9 @@ export class SignInUserController {
     async confirmSign(@Body() confirmDto: ConfirmSignInUserDto, @Res({passthrough:true}) res:Response){
         return this.signInUser.confirmSignIn(confirmDto, res)
     }
+
+    @Post("signout")
+    async signOut(@Res({ passthrough: true }) res: Response) {
+        return this.signInUser.signOut(res);
+    }
 }

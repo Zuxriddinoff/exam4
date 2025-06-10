@@ -32,7 +32,6 @@ export class Basket extends Model {
 
     @Column({
         type: DataType.DECIMAL,
-        allowNull: false,
     })
     total_price: number;
 }

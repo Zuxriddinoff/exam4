@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
     IsString,
     IsNumber,
@@ -17,10 +18,12 @@ import {
   
     @IsNumber({ maxDecimalPlaces: 2 })
     @IsPositive()
+    @Type(() => Number)
     price: number;
   
     @IsInt()
     @IsPositive()
+    @Type(() => Number)
     stock: number;
   
     @IsOptional()
@@ -32,5 +35,15 @@ import {
     @IsString()
     @MaxLength(500)
     description?: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    @Type(() => Number)
+    seller_id: number
+
+    @IsNumber()
+    @IsNotEmpty()
+    @Type(() => Number)
+    category_id: number
   }
   

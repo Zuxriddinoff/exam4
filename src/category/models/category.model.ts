@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table }from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table }from "sequelize-typescript";
+import { Product } from "src/product/models/product.model";
 
 @Table({ tableName: 'Category' })
 export class Category extends Model {
@@ -12,6 +13,9 @@ export class Category extends Model {
         type: DataType.STRING, 
         allowNull: false  
     })
-    dectcription: string;
+    description: string;
+
+    @HasMany(() => Product)
+    product:Product
 }
 
