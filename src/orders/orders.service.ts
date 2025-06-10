@@ -75,7 +75,6 @@ export class OrdersService {
   }
 }
 
-
   async findAllOrder() {
     try {
       return await this.orderModel.findAll({include:{all:true}});
@@ -91,32 +90,6 @@ export class OrdersService {
         throw new NotFoundException(`ID raqami ${id} bolgan buyurtma topilmadi`);
       }
       return order;
-    } catch (error) {
-      return catchError(error);
-    }
-  }
-
-  async updateOrder(id: number, updateOrderDto: UpdateOrderDto) {
-    try {
-      const order = await this.orderModel.findByPk(id);
-      if (!order) {
-        throw new NotFoundException(`ID raqami ${id} bolgan buyurtma mavjud emas`);
-      }
-      await order.update(updateOrderDto);
-      return order;
-    } catch (error) {
-      return catchError(error);
-    }
-  }
-
-  async removeOrder(id: number) {
-    try {
-      const order = await this.orderModel.findByPk(id);
-      if (!order) {
-        throw new NotFoundException(`ID raqami ${id} bolgan buyurtma topilmadi`);
-      }
-      await order.destroy();
-      return { message: 'Buyurtma ochirib tashlandi' };
     } catch (error) {
       return catchError(error);
     }
